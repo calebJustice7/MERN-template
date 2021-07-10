@@ -1,0 +1,57 @@
+import React from 'react';
+import {HashRouter as BrowserRouter, Router, Switch} from 'react-router-dom';
+
+import store from './store/index';
+import services from './helpers/services';
+
+class App extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            email: '',
+            username: '',
+            password: ''
+        }
+    }
+
+    componentDidMount() {
+        this.unsubscribe = store.subscribe(() => {
+            this.forceUpdate();
+        });
+        this.login();
+        services('todos', 'find', {});
+    }
+
+    componentWillUnmount() {
+        this.unsubscribe();
+    }
+
+    login = () => {
+        services('users', 'auth').then(res => console.log(res));
+    }
+
+    createTodo = () => {
+        services('todos', 'create', {text: this.state.email, name: this.state.username})
+    }
+
+    todos = () => {
+        return store.getState().service.todos
+    }
+
+    render() {
+        return (
+            <div>
+                {this.todos().map((todo, idx) => (
+                    <div key={idx}>{JSON.stringify(todo)}</div>
+                ))}
+                <input type="text" placeholder="Email" value={this.state.email} onChange={e => this.setState({email: e.target.value})} />
+                <input type="text" placeholder="Username" value={this.state.username} onChange={e => this.setState({username: e.target.value})} />
+                {/*<input type="password" placeholder="Password" value={this.state.password} onChange={e => this.setState({password: e.target.value})} />*/}
+                <button onClick={this.createTodo}>Create</button>
+                <button onClick={() => services('users', 'logout')}>Logout</button>
+            </div>
+        )
+    }
+}
+
+export default App;
