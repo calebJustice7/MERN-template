@@ -2,14 +2,10 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
             
 const todosSchema = new Schema({
-    todo: {
+    text: {
         type: String,
         required: true
-    },
-    createdBy: {
-        type: Schema.Types.ObjectId,
-        required: true
-    },
+    }
 }, {
     timestamps: true
 });

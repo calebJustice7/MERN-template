@@ -6,7 +6,7 @@ const cCase = (str) => {
     if (!str) return str;
     let newStr = str;
     if (str.indexOf('-') !== -1) {
-        let finalStr = str; 
+        let finalStr = str;
         let dash = str.indexOf('-');
         newStr = str.replace('-', '');
         let arr = newStr.split('');
@@ -18,18 +18,17 @@ const cCase = (str) => {
     }
 }
 
-const todoReducer = (state = initState, action) => {
-    if(action.type === `${action.service}/find`) {
+const serviceReducer = (state = initState, action) => {
+    if (action.type === `${action.service}/find`) {
         return {
             ...state,
             [cCase(action.service)]: action.payload || []
         }
-    }
-    else {
+    } else {
         return {
             ...state
         };
     }
 }
 
-export default todoReducer;
+export default serviceReducer;
