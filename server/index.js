@@ -39,8 +39,6 @@ app.use(passport.initialize());
 
 app.use('/api/users/', Users);
 
-app.use('/api/todos/', require('./routes/todos.js'));
-
 const port = process.env.PORT || 9000;
 let server = app.listen(port, () => console.log('Server started, running on port ', port));
 let clientUrl = process.env.DEV_CLIENT_URL || 'http:localhost:3000';
@@ -60,11 +58,7 @@ io.sockets.on('connection', (socket) => {
         console.log('A connection was made via socket!');
     });
 
-    
-        socket.on('todos', data => {
-            io.emit('todos', data);
-        })
-socket.on('users', data => {
+    socket.on('users', data => {
         io.emit('users', data);
     });
 
